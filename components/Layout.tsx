@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { Home, BookOpen, MessageSquare, Zap, BarChart2, Users, Play, Pause, X, Compass } from 'lucide-react';
+import { Home, BookOpen, MessageSquare, Zap, BarChart2, Users, Play, Pause, X, Compass, Quote } from 'lucide-react';
 import { useUser } from '../context/UserContext';
 
 const navItems = [
@@ -12,6 +11,7 @@ const navItems = [
   { path: '/community', label: 'Support Circle', icon: Users },
   { path: '/progress', label: 'Progress', icon: BarChart2 },
   { path: '/journeys', label: 'Journeys', icon: Compass },
+  { path: '/affirmations', label: 'Affirmations', icon: Quote },
 ];
 
 const GlobalAudioController = () => {

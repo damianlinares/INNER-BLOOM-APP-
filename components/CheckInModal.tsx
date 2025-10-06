@@ -8,18 +8,21 @@ const levelLabels = ['Very Low', 'Low', 'Neutral', 'Good', 'Great'];
 const sleepLabels = ['Very Poor', 'Poor', 'Okay', 'Good', 'Great'];
 
 
-const SegmentedControl = ({ value, setValue, labels, colors }: { value: number, setValue: (val: number) => void, labels: string[], colors: string[] }) => {
+const RatingSelector = ({ value, setValue, labels, emojis, selectedClasses }: { value: number, setValue: (val: number) => void, labels: string[], emojis: string[], selectedClasses: string }) => {
     return (
-        <div className="flex justify-center space-x-2">
-            {labels.map((_, index) => (
+        <div className="space-y-3">
+            {labels.map((label, index) => (
                 <button
                     key={index}
                     onClick={() => setValue(index + 1)}
-                    className={`w-12 h-12 flex items-center justify-center rounded-lg transition-all duration-300 transform ${
-                        value === index + 1 ? `${colors[0]} scale-110 shadow-lg` : `${colors[1]} hover:scale-105`
+                    className={`w-full flex items-center p-3 rounded-lg border-2 transition-all duration-200 text-left ${
+                        value === index + 1
+                            ? `${selectedClasses} shadow-lg scale-105`
+                            : 'border-transparent bg-base hover:bg-white/5 hover:border-text-primary/20'
                     }`}
                 >
-                    <span className="text-2xl">{moodEmojis[index]}</span>
+                    <span className="text-3xl mr-4">{emojis[index]}</span>
+                    <span className="font-semibold text-text-primary">{label}</span>
                 </button>
             ))}
         </div>
@@ -84,7 +87,7 @@ const CheckInModal: React.FC = () => {
   if (!isCheckInModalOpen) return null;
 
   const renderStepContent = () => {
-    const animationClass = direction === 'forward' ? 'animate-slide-in' : 'animate-slide-in'; // Simplified for consistency
+    const animationClass = direction === 'forward' ? 'animate-slide-in' : 'animate-slide-in-from-left';
     
     return (
         <div key={currentStep} className={`w-full ${animationClass}`}>
@@ -94,25 +97,22 @@ const CheckInModal: React.FC = () => {
                         case 0:
                             return (
                                 <div>
-                                    <h3 className="text-xl font-semibold mb-2 text-center">How are you feeling today?</h3>
-                                    <p className="text-center text-text-secondary mb-6">{levelLabels[mood-1]}</p>
-                                    <SegmentedControl value={mood} setValue={setMood} labels={moodEmojis} colors={['bg-primary', 'bg-base']} />
+                                    <h3 className="text-xl font-semibold mb-6 text-center">How are you feeling today?</h3>
+                                    <RatingSelector value={mood} setValue={setMood} labels={levelLabels} emojis={moodEmojis} selectedClasses="border-primary bg-primary/20" />
                                 </div>
                             );
                         case 1:
                             return (
                                 <div>
-                                    <h3 className="text-xl font-semibold mb-2 text-center">What's your energy level?</h3>
-                                    <p className="text-center text-text-secondary mb-6">{levelLabels[energy-1]}</p>
-                                    <SegmentedControl value={energy} setValue={setEnergy} labels={moodEmojis} colors={['bg-secondary', 'bg-base']} />
+                                    <h3 className="text-xl font-semibold mb-6 text-center">What's your energy level?</h3>
+                                    <RatingSelector value={energy} setValue={setEnergy} labels={levelLabels} emojis={moodEmojis} selectedClasses="border-secondary bg-secondary/20" />
                                 </div>
                             );
                         case 2:
                             return (
                                 <div>
-                                    <h3 className="text-xl font-semibold mb-2 text-center">How did you sleep?</h3>
-                                    <p className="text-center text-text-secondary mb-6">{sleepLabels[sleep-1]}</p>
-                                    <SegmentedControl value={sleep} setValue={setSleep} labels={moodEmojis} colors={['bg-accent', 'bg-base']} />
+                                    <h3 className="text-xl font-semibold mb-6 text-center">How did you sleep?</h3>
+                                    <RatingSelector value={sleep} setValue={setSleep} labels={sleepLabels} emojis={moodEmojis} selectedClasses="border-accent bg-accent/20" />
                                 </div>
                             );
                         case 3:
@@ -154,7 +154,7 @@ const CheckInModal: React.FC = () => {
             </div>
         </div>
         
-        <div className="min-h-[200px] flex items-center justify-center overflow-hidden relative">
+        <div className="min-h-[360px] flex items-center justify-center overflow-hidden relative">
             {renderStepContent()}
         </div>
 

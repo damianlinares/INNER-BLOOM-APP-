@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { UserProvider, useUser } from './context/UserContext';
@@ -11,6 +10,7 @@ import Community from './screens/Community';
 import Progress from './screens/Progress';
 import CheckInModal from './components/CheckInModal';
 import Journeys from './screens/Journeys';
+import Affirmations from './screens/Affirmations';
 
 const GlobalAudioPlayer = () => {
     const { activeSoundscape, isSoundscapePlaying } = useUser();
@@ -78,6 +78,7 @@ function App() {
               <Route path="/community" element={<Community />} />
               <Route path="/progress" element={<Progress />} />
               <Route path="/journeys" element={<Journeys />} />
+              <Route path="/affirmations" element={<Affirmations />} />
             </Route>
           </Routes>
           <CheckInModal />

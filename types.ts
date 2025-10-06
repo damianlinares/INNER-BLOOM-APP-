@@ -1,3 +1,8 @@
+export interface Affirmation {
+  id: string;
+  text: string;
+  isFavorite: boolean;
+}
 
 export interface JournalEntry {
   id: string;
@@ -74,6 +79,7 @@ export interface UserData {
   insights: string[];
   lastInsightDate: string | null;
   dashboardLayout: DashboardComponent[];
+  affirmations: Affirmation[];
 }
 
 export interface CommunityPost {

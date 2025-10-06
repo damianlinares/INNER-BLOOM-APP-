@@ -1,5 +1,4 @@
-
-import type { BreathingExercise, Soundscape, Meditation, CommunityPost, Journey, Achievement, SharedIntention } from './types';
+import type { BreathingExercise, Soundscape, Meditation, CommunityPost, Journey, Achievement, SharedIntention, Affirmation } from './types';
 
 export const BREATHING_EXERCISES: BreathingExercise[] = [
   {
@@ -70,4 +69,12 @@ export const JOURNEYS: Journey[] = [
 export const INITIAL_INTENTIONS: SharedIntention[] = [
     { id: '1', text: 'To be kind to myself today.', author: 'anonymous', energy: 15 },
     { id: '2', text: 'To find a moment of quiet.', author: 'anonymous', energy: 22 },
+];
+
+export const INITIAL_AFFIRMATIONS: Affirmation[] = [
+  { id: 'aff1', text: 'I am capable of achieving my goals.', isFavorite: false },
+  { id: 'aff2', text: 'I release all tension and embrace tranquility.', isFavorite: false },
+  { id: 'aff3', text: 'I am worthy of love and respect.', isFavorite: false },
+  { id: 'aff4', text: 'I choose to be positive and see the good in every situation.', isFavorite: false },
+  { id: 'aff5', text: 'My potential is limitless.', isFavorite: false },
 ];

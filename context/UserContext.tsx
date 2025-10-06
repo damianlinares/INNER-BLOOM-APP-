@@ -1,9 +1,8 @@
-
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
-import type { UserData, JournalEntry, Session, CheckInData, Soundscape, DashboardComponent } from '../types';
+import type { UserData, JournalEntry, Session, CheckInData, Soundscape, DashboardComponent, Affirmation } from '../types';
 import { getJournalReflection, getAIInsight } from '../services/geminiService';
-import { ACHIEVEMENTS, JOURNEYS } from '../constants';
+import { ACHIEVEMENTS, JOURNEYS, INITIAL_AFFIRMATIONS } from '../constants';
 
 
 const isSameDay = (d1: Date, d2: Date) => {
@@ -42,6 +41,11 @@ interface UserContextType {
 
     // Dashboard Customization
     updateDashboardLayout: (layout: DashboardComponent[]) => void;
+
+    // Affirmations
+    addAffirmation: (text: string) => void;
+    toggleAffirmationFavorite: (id: string) => void;
+    deleteAffirmation: (id: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -60,6 +64,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         insights: [],
         lastInsightDate: null,
         dashboardLayout: ['stats', 'tree', 'journey', 'insight'],
+        affirmations: INITIAL_AFFIRMATIONS,
     });
 
     const [isCheckInModalOpen, setCheckInModalOpen] = useState(false);
@@ -214,6 +219,32 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUserData(prev => ({ ...prev, dashboardLayout: layout }));
     };
 
+    // Affirmations
+    const addAffirmation = (text: string) => {
+        const newAffirmation: Affirmation = {
+            id: Date.now().toString(),
+            text,
+            isFavorite: false,
+        };
+        setUserData(prev => ({ ...prev, affirmations: [newAffirmation, ...prev.affirmations] }));
+    };
+
+    const toggleAffirmationFavorite = (id: string) => {
+        setUserData(prev => ({
+            ...prev,
+            affirmations: prev.affirmations.map(aff => 
+                aff.id === id ? { ...aff, isFavorite: !aff.isFavorite } : aff
+            ),
+        }));
+    };
+
+    const deleteAffirmation = (id: string) => {
+        setUserData(prev => ({
+            ...prev,
+            affirmations: prev.affirmations.filter(aff => aff.id !== id),
+        }));
+    };
+
     // AI Insights (run once per day on load)
     useEffect(() => {
         const todayStr = new Date().toISOString().split('T')[0];
@@ -245,6 +276,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         toggleSoundscape,
         stopSoundscape,
         updateDashboardLayout,
+        addAffirmation,
+        toggleAffirmationFavorite,
+        deleteAffirmation,
     };
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
