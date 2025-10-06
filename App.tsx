@@ -17,22 +17,27 @@ const GlobalAudioPlayer = () => {
     const audioRef = React.useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
-        if (audioRef.current && activeSoundscape) {
-            if (isSoundscapePlaying) {
-                audioRef.current.play().catch(e => console.error("Audio play failed", e));
+        const audioElement = audioRef.current;
+        if (audioElement) {
+            if (isSoundscapePlaying && activeSoundscape) {
+                // When the src prop changes on the <audio> element, the browser
+                // handles loading. We just need to ensure we call play().
+                const playPromise = audioElement.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        // The AbortError is expected if the user quickly switches songs,
+                        // which interrupts the previous play() promise. We can safely ignore it.
+                        if (error.name !== 'AbortError') {
+                            console.error("Audio play failed", error);
+                        }
+                    });
+                }
             } else {
-                audioRef.current.pause();
+                audioElement.pause();
             }
         }
     }, [isSoundscapePlaying, activeSoundscape]);
     
-    useEffect(() => {
-       if(audioRef.current && activeSoundscape) {
-         audioRef.current.src = activeSoundscape.file;
-         if(isSoundscapePlaying) audioRef.current.play().catch(e => console.error("Audio play failed", e));
-       }
-    }, [activeSoundscape]);
-
 
     if (!activeSoundscape) return null;
 
