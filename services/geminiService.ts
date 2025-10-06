@@ -5,7 +5,7 @@ import { CheckInData, JournalEntry } from "./types";
 if (!process.env.API_KEY) {
   // A simple fallback for environments where process.env is not defined.
   // In a real build process, this would be replaced.
-  const apiKey = 'YOUR_API_KEY_HERE'; // Replace with your actual key if needed for local dev
+  const apiKey = 'AIzaSyBL8ynsJgXGZn9X79Seiw6asv1zHQmmncQ'; // Replace with your actual key if needed for local dev
    if(apiKey === 'YOUR_API_KEY_HERE') {
     console.warn("API Key is not set. Please set it in geminiService.ts");
    }
