@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { useUser } from '../context/UserContext';
 import { XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, ScatterChart, Scatter, ZAxis } from 'recharts';
@@ -6,7 +5,7 @@ import { XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Line
 const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-surface p-2 border border-text-primary/20 rounded-md shadow-lg">
+            <div className="bg-surface p-2 border border-border-color rounded-xl shadow-md">
                 <p className="label text-sm text-text-secondary">{`${label}`}</p>
                 {payload.map((pld: any, index: number) => (
                     <p key={index} style={{ color: pld.color }} className="text-sm">{`${pld.name}: ${pld.value}`}</p>
@@ -23,7 +22,7 @@ const ConsistencyHeatmap = () => {
     const data = useMemo(() => {
         const checkInDates = new Set(userData.checkIns.map(ci => ci.date));
         const today = new Date();
-        const days = Array.from({ length: 90 }, (_, i) => {
+        const days = Array.from({ length: 91 }, (_, i) => { // 13 weeks
             const date = new Date(today);
             date.setDate(today.getDate() - i);
             const dateString = date.toISOString().split('T')[0];
@@ -36,15 +35,17 @@ const ConsistencyHeatmap = () => {
     }, [userData.checkIns]);
 
     return (
-        <div className="grid grid-cols-7 gap-1.5 md:grid-cols-15 lg:grid-cols-30">
-             {data.map(({ date, checkedIn }, index) => (
-                <div key={index} className="relative group">
-                    <div className={`w-full aspect-square rounded ${checkedIn ? 'bg-primary' : 'bg-base'}`} />
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-surface p-2 text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                        {date.toLocaleDateString(undefined, {month: 'short', day: 'numeric'})} - {checkedIn ? 'Checked In' : 'No Check-in'}
+        <div className="overflow-x-auto pb-2 -mx-6 px-6">
+            <div className="grid grid-flow-col grid-rows-7 gap-1.5">
+                {data.map(({ date, checkedIn }, index) => (
+                    <div key={index} className="relative group w-4 h-4 md:w-5 md:h-5">
+                        <div className={`w-full h-full aspect-square rounded-sm ${checkedIn ? 'bg-secondary' : 'bg-background'}`} />
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-surface p-2 text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 border border-border-color">
+                            {date.toLocaleDateString(undefined, {month: 'short', day: 'numeric'})} - {checkedIn ? 'Checked In' : 'No Check-in'}
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 };
@@ -90,49 +91,49 @@ const Progress: React.FC = () => {
     return (
         <div className="space-y-8">
             <header>
-                <h1 className="text-4xl font-bold font-serif text-text-primary">Your Progress</h1>
+                <h1 className="text-3xl md:text-4xl font-semibold text-text-primary">Your Progress</h1>
                 <p className="text-lg text-text-secondary mt-2">Track your trends, consistency, and correlations over time.</p>
             </header>
 
             {userData.checkIns.length > 0 ? (
                 <>
-                    <section className="bg-surface p-6 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-bold font-serif text-primary mb-4">Check-in Consistency</h2>
+                    <section className="bg-surface p-6 rounded-xl shadow-soft border border-border-color">
+                        <h2 className="text-2xl font-semibold text-secondary mb-4">Check-in Consistency</h2>
                         <ConsistencyHeatmap />
                     </section>
 
-                    <section className="bg-surface p-6 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-bold font-serif text-primary mb-4">Check-in Trends (Last 30 Days)</h2>
+                    <section className="bg-surface p-6 rounded-xl shadow-soft border border-border-color">
+                        <h2 className="text-2xl font-semibold text-secondary mb-4">Check-in Trends (Last 30 Days)</h2>
                         <ResponsiveContainer width="100%" height={300}>
                             <LineChart data={chartData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#F9FAFB/10" />
-                                <XAxis dataKey="date" stroke="#9CA3AF" />
-                                <YAxis domain={[1, 5]} stroke="#9CA3AF" />
+                                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+                                <XAxis dataKey="date" stroke="#64748B" />
+                                <YAxis domain={[1, 5]} stroke="#64748B" />
                                 <Tooltip content={<CustomTooltip />} />
-                                <Legend wrapperStyle={{ color: '#F9FAFB' }} />
-                                <Line type="monotone" dataKey="Mood" stroke="#818CF8" strokeWidth={2} name="Mood" />
-                                <Line type="monotone" dataKey="Energy" stroke="#A78BFA" strokeWidth={2} name="Energy"/>
-                                <Line type="monotone" dataKey="Sleep" stroke="#F472B6" strokeWidth={2} name="Sleep"/>
+                                <Legend wrapperStyle={{ color: '#0F172A' }} />
+                                <Line type="monotone" dataKey="Mood" stroke="#3B82F6" strokeWidth={2} name="Mood" />
+                                <Line type="monotone" dataKey="Energy" stroke="#818CF8" strokeWidth={2} name="Energy"/>
+                                <Line type="monotone" dataKey="Sleep" stroke="#A78BFA" strokeWidth={2} name="Sleep"/>
                             </LineChart>
                         </ResponsiveContainer>
                     </section>
 
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-                        <section className="md:col-span-3 bg-surface p-6 rounded-lg shadow-md">
-                            <h2 className="text-2xl font-bold font-serif text-secondary mb-4">Sleep vs. Mood Correlation</h2>
+                        <section className="md:col-span-3 bg-surface p-6 rounded-xl shadow-soft border border-border-color">
+                            <h2 className="text-2xl font-semibold text-secondary mb-4">Sleep vs. Mood Correlation</h2>
                             <ResponsiveContainer width="100%" height={300}>
                                 <ScatterChart>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#F9FAFB/10" />
-                                    <XAxis type="number" dataKey="sleep" name="Sleep Quality (Previous Night)" domain={[1, 5]} tickCount={5} stroke="#9CA3AF" />
-                                    <YAxis type="number" dataKey="mood" name="Mood (Next Day)" domain={[1, 5]} tickCount={5} stroke="#9CA3AF" />
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+                                    <XAxis type="number" dataKey="sleep" name="Sleep Quality (Previous Night)" domain={[1, 5]} tickCount={5} stroke="#64748B" />
+                                    <YAxis type="number" dataKey="mood" name="Mood (Next Day)" domain={[1, 5]} tickCount={5} stroke="#64748B" />
                                     <ZAxis range={[60, 400]} />
                                     <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip />} />
-                                    <Scatter name="Check-ins" data={correlationData} fill="#A78BFA" fillOpacity={0.6}/>
+                                    <Scatter name="Check-ins" data={correlationData} fill="#3B82F6" fillOpacity={0.7}/>
                                 </ScatterChart>
                             </ResponsiveContainer>
                         </section>
-                        <section className="md:col-span-2 bg-surface p-6 rounded-lg shadow-md">
-                            <h2 className="text-2xl font-bold font-serif text-accent mb-4">Journal Themes</h2>
+                        <section className="md:col-span-2 bg-surface p-6 rounded-xl shadow-soft border border-border-color">
+                            <h2 className="text-2xl font-semibold text-secondary mb-4">Journal Themes</h2>
                             <div className="flex flex-wrap gap-2 items-center text-text-secondary h-[280px] content-center justify-center p-4">
                                 {wordCloudData.length > 0 ? wordCloudData.map(({ text, value }) => (
                                     <span key={text} style={{ fontSize: `${12 + value * 2.5}px`, opacity: 0.6 + value / 15 }} className="hover:text-text-primary transition-colors cursor-default leading-none">
@@ -144,7 +145,7 @@ const Progress: React.FC = () => {
                     </div>
                 </>
             ) : (
-                <div className="text-center py-20 bg-surface rounded-lg">
+                <div className="text-center py-20 bg-surface rounded-xl shadow-soft border border-border-color">
                     <p className="text-lg text-text-secondary">No progress data yet.</p>
                     <p className="text-text-primary mt-2">Complete your daily check-in to start tracking your progress.</p>
                 </div>

@@ -100,19 +100,19 @@ const Community: React.FC = () => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2">
         <header className="mb-8">
-            <h1 className="text-4xl font-bold font-serif text-text-primary">Support Circle</h1>
+            <h1 className="text-3xl md:text-4xl font-semibold text-text-primary">Support Circle</h1>
             <p className="text-lg text-text-secondary mt-2">A safe, anonymous space to share and connect.</p>
         </header>
 
-        <div className="bg-surface p-6 rounded-lg shadow-md mb-8">
+        <div className="bg-surface p-6 rounded-xl shadow-soft mb-8 border border-border-color">
           <textarea
             value={newPost}
             onChange={e => setNewPost(e.target.value)}
             placeholder="Share a thought, a feeling, a moment..."
-            className="w-full h-24 p-3 border border-text-primary/20 rounded-md bg-base focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow duration-300"
+            className="w-full h-24 p-3 border border-border-color rounded-xl bg-background focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-shadow duration-200"
           ></textarea>
           <div className="flex justify-end mt-4">
-            <button onClick={handleAddPost} disabled={isPosting} className="bg-primary text-white font-semibold px-6 py-2 rounded-lg hover:bg-primary/90 flex items-center gap-2 disabled:bg-primary/50">
+            <button onClick={handleAddPost} disabled={isPosting} className="bg-primary text-text-primary font-semibold px-6 py-2 rounded-xl hover:bg-gray-100 flex items-center gap-2 disabled:bg-gray-200 shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 border border-border-color">
                 {isPosting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16}/>} 
                 {isPosting ? 'Sharing...' : 'Share Anonymously'}
             </button>
@@ -121,16 +121,16 @@ const Community: React.FC = () => {
 
         <div className="space-y-4">
           {posts.map(post => (
-            <div key={post.id} className="bg-surface p-4 rounded-lg shadow-sm flex space-x-4">
-               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-base flex items-center justify-center text-text-secondary">
+            <div key={post.id} className="bg-surface p-4 rounded-xl shadow-soft flex space-x-4 border border-border-color">
+               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-background flex items-center justify-center text-text-secondary">
                  <User size={20} />
                </div>
                <div className="flex-1">
-                  <p className="text-sm text-text-secondary font-semibold">{post.author}</p>
+                  <p className="text-sm text-text-secondary font-medium">{post.author}</p>
                   <p className="my-2 text-text-primary">{post.content}</p>
-                  <div className="flex items-center space-x-2 pt-2 border-t border-text-primary/10">
+                  <div className="flex items-center space-x-2 pt-2 border-t border-border-color">
                     {reactions.map(r => (
-                      <button key={r} onClick={(e) => handleReaction(post.id, r, e)} className="flex items-center space-x-1 px-3 py-1 rounded-full bg-base hover:bg-primary/10 transition-colors group">
+                      <button key={r} onClick={(e) => handleReaction(post.id, r, e)} className="flex items-center space-x-1 px-3 py-1 rounded-full bg-background hover:bg-secondary/10 transition-colors group">
                         <span>{r}</span>
                         <span className="text-xs font-medium text-text-secondary group-hover:text-text-primary">{post.reactions[r]}</span>
                       </button>
@@ -142,16 +142,15 @@ const Community: React.FC = () => {
         </div>
       </div>
       <div className="lg:col-span-1">
-        <div className={`bg-surface p-6 rounded-lg shadow-sm sticky top-8 ${isRitualActive ? 'animate-subtle-glow' : ''}`}>
+        <div className={`bg-surface p-6 rounded-xl shadow-soft lg:sticky lg:top-8 border border-border-color ${isRitualActive ? 'animate-subtle-glow' : ''}`}>
             
-            {/* Collective Healing Ritual */}
             <div className="text-center">
-                <h2 className="text-xl font-bold font-serif text-primary">Collective Healing Ritual</h2>
+                <h2 className="text-xl font-semibold text-secondary">Collective Healing Ritual</h2>
                 <p className="text-text-secondary mt-2 text-sm">Join others in a synchronized moment of peace at sunset (UTC).</p>
                 {isRitualActive ? (
-                    <div className="mt-4 p-4 rounded-lg bg-accent/10">
+                    <div className="mt-4 p-4 rounded-xl bg-secondary/10">
                         <p className="text-lg font-semibold text-secondary">The ritual is happening now!</p>
-                        <p className="text-5xl font-bold my-4 text-accent animate-pulse">Breathe...</p>
+                        <p className="text-5xl font-semibold my-4 text-secondary animate-pulse">Breathe...</p>
                         <div className="flex items-center justify-center text-text-secondary text-sm">
                             <Users size={16} className="mr-2"/>
                             <span>{participants} people are breathing with you.</span>
@@ -159,35 +158,19 @@ const Community: React.FC = () => {
                     </div>
                 ) : (
                     <div className="mt-4">
-                        <p className="text-sm font-semibold text-text-secondary">Next ritual begins in:</p>
-                        <div className="flex justify-center items-end gap-2 my-2">
-                            <div>
-                                <span className="text-4xl font-mono font-bold text-primary">{timeToSunset.split(':')[0]}</span>
-                                <span className="text-xs text-text-secondary block">HR</span>
-                            </div>
-                            <span className="text-4xl font-mono font-bold text-primary pb-2">:</span>
-                            <div>
-                                <span className="text-4xl font-mono font-bold text-primary">{timeToSunset.split(':')[1]}</span>
-                                <span className="text-xs text-text-secondary block">MIN</span>
-                            </div>
-                            <span className="text-4xl font-mono font-bold text-primary pb-2">:</span>
-                            <div>
-                                <span className="text-4xl font-mono font-bold text-primary">{timeToSunset.split(':')[2]}</span>
-                                <span className="text-xs text-text-secondary block">SEC</span>
-                            </div>
-                        </div>
+                        <p className="text-sm font-medium text-text-secondary">Next ritual begins in:</p>
+                        <p className="text-4xl font-mono font-semibold text-secondary my-2">{timeToSunset}</p>
                     </div>
                 )}
             </div>
 
-            {/* Shared Intentions */}
-            <div className="text-center mt-8 pt-8 border-t border-text-primary/10">
-                <h2 className="text-xl font-bold font-serif text-secondary">Shared Intentions</h2>
+            <div className="text-center mt-8 pt-8 border-t border-border-color">
+                <h2 className="text-xl font-semibold text-secondary">Shared Intentions</h2>
                 <div className="space-y-3 mt-4 text-left">
                     {intentions.map(intention => (
-                        <div key={intention.id} className="bg-base p-3 rounded-lg flex items-center justify-between transition-all hover:shadow-lg hover:bg-base/80">
+                        <div key={intention.id} className="bg-background p-3 rounded-xl flex items-center justify-between transition-all hover:shadow-md">
                             <p className="text-text-primary text-sm italic">"{intention.text}"</p>
-                            <button onClick={() => handleAddEnergy(intention.id)} className="relative flex items-center gap-1.5 text-xs text-secondary font-bold px-3 py-2 rounded-full hover:bg-secondary/20 hover:text-primary transition-colors">
+                            <button onClick={() => handleAddEnergy(intention.id)} className="relative flex items-center gap-1.5 text-xs text-secondary font-medium px-3 py-2 rounded-full hover:bg-secondary/10 transition-colors">
                                 <Sparkles size={14}/> {intention.energy}
                                 {ripples.filter(r => r.startsWith(intention.id)).map(r => <Ripple key={r} onAnimationEnd={() => setRipples(current => current.filter(id => id !== r))} />)}
                             </button>
@@ -198,11 +181,11 @@ const Community: React.FC = () => {
                     <input 
                         value={newIntention} 
                         onChange={e => setNewIntention(e.target.value)} 
-                        onKeyPress={e => e.key === 'Enter' && handleAddIntention()}
+                        onKeyPress={e => e.key === 'Enter' && handleAddIntention}
                         placeholder="Share an intention..." 
-                        className="flex-1 text-sm p-2 border border-text-primary/20 rounded-lg bg-base focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-shadow min-w-0"
+                        className="flex-1 text-sm p-2 border border-border-color rounded-xl bg-background focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-shadow min-w-0"
                     />
-                    <button onClick={handleAddIntention} className="p-3 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-colors"><Plus size={18}/></button>
+                    <button onClick={handleAddIntention} className="p-3 bg-secondary text-white font-semibold rounded-xl hover:bg-secondary/90 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"><Plus size={18}/></button>
                 </div>
             </div>
         </div>

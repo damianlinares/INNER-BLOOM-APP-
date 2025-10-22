@@ -12,11 +12,11 @@ const AffirmationCard: React.FC<{
 
     return (
         <div 
-            className="bg-surface p-4 rounded-lg shadow-sm flex flex-col justify-between h-32 relative transition-all duration-200 hover:shadow-md hover:-translate-y-1"
+            className="bg-surface p-4 rounded-xl shadow-md flex flex-col justify-between h-36 relative transition-all duration-200 hover:shadow-lg hover:-translate-y-1 border border-border-color"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <p className="text-text-primary font-serif">{affirmation.text}</p>
+            <p className="text-text-primary">{affirmation.text}</p>
             <div className="flex justify-end">
                 <button
                     onClick={() => onToggleFavorite(affirmation.id)}
@@ -29,7 +29,7 @@ const AffirmationCard: React.FC<{
              {isHovered && (
                 <button
                     onClick={() => onDelete(affirmation.id)}
-                    className="absolute top-2 right-2 p-1 bg-base rounded-full text-text-secondary hover:text-accent"
+                    className="absolute top-2 right-2 p-1 bg-background rounded-full text-text-secondary hover:text-secondary"
                     aria-label="Delete affirmation"
                 >
                     <X size={14} />
@@ -74,32 +74,32 @@ const Affirmations: React.FC = () => {
     return (
         <div className="space-y-8">
             <header>
-                <h1 className="text-4xl font-bold font-serif text-text-primary">Daily Affirmations</h1>
+                <h1 className="text-3xl md:text-4xl font-semibold text-text-primary">Daily Affirmations</h1>
                 <p className="text-lg text-text-secondary mt-2">Empower your mindset with positive statements.</p>
             </header>
             
             {featuredAffirmation && (
-                 <section className="bg-surface p-6 rounded-lg shadow-md border-l-4 border-secondary">
-                     <h2 className="text-xl font-bold font-serif text-secondary mb-2 flex items-center">
+                 <section className="bg-surface p-6 rounded-xl shadow-soft border-l-4 border-secondary border border-border-color">
+                     <h2 className="text-xl font-semibold text-secondary mb-2 flex items-center">
                          <QuoteIcon className="w-6 h-6 mr-3 -scale-x-100" />
                          Thought for the Moment
                      </h2>
-                     <p className="text-2xl text-text-primary font-serif italic">"{featuredAffirmation.text}"</p>
+                     <p className="text-2xl text-text-primary italic">"{featuredAffirmation.text}"</p>
                  </section>
             )}
 
-            <section className="bg-surface p-6 rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold font-serif text-primary mb-4">Add Your Own</h2>
+            <section className="bg-surface p-6 rounded-xl shadow-soft border border-border-color">
+                <h2 className="text-2xl font-semibold text-secondary mb-4">Add Your Own</h2>
                 <div className="flex flex-col sm:flex-row gap-4">
                     <textarea
                         value={newAffirmationText}
                         onChange={(e) => setNewAffirmationText(e.target.value)}
                         placeholder="e.g., I am resilient and can handle whatever comes my way."
-                        className="w-full h-20 sm:h-auto p-3 border border-text-primary/20 rounded-md bg-base focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow duration-300"
+                        className="w-full h-20 sm:h-auto p-3 border border-border-color rounded-xl bg-background focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-shadow duration-200"
                     />
                     <button
                         onClick={handleAddAffirmation}
-                        className="flex items-center justify-center gap-2 bg-primary text-white font-semibold px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors sm:h-fit"
+                        className="flex items-center justify-center gap-2 bg-primary text-text-primary font-semibold px-6 py-2 rounded-xl hover:bg-gray-100 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 sm:h-fit border border-border-color"
                     >
                         <Plus size={18} />
                         Add Affirmation
@@ -108,7 +108,7 @@ const Affirmations: React.FC = () => {
             </section>
             
             <section>
-                <h2 className="text-2xl font-bold font-serif text-primary mb-4">My Affirmations</h2>
+                <h2 className="text-2xl font-semibold text-secondary mb-4">My Affirmations</h2>
                 {sortedAffirmations.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {sortedAffirmations.map(affirmation => (
@@ -121,7 +121,7 @@ const Affirmations: React.FC = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-10 bg-surface rounded-lg">
+                    <div className="text-center py-10 bg-surface rounded-xl shadow-soft border border-border-color">
                         <p className="text-text-secondary">Your collection is empty.</p>
                         <p className="text-text-primary mt-1">Add your first affirmation above to get started.</p>
                     </div>

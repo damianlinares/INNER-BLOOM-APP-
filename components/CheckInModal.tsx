@@ -3,22 +3,22 @@ import { useUser } from '../context/UserContext';
 import { X } from 'lucide-react';
 
 const steps = ["Mood", "Energy", "Sleep", "Gratitude", "Summary"];
-const moodEmojis = ['😔', '😕', '😐', '🙂', '😄'];
-const levelLabels = ['Very Low', 'Low', 'Neutral', 'Good', 'Great'];
-const sleepLabels = ['Very Poor', 'Poor', 'Okay', 'Good', 'Great'];
+const moodEmojis = ['😄', '🙂', '😐', '😕', '😔'];
+const levelLabels = ['Great', 'Good', 'Neutral', 'Low', 'Very Low'];
+const sleepLabels = ['Great', 'Good', 'Okay', 'Poor', 'Very Poor'];
 
 
-const RatingSelector = ({ value, setValue, labels, emojis, selectedClasses }: { value: number, setValue: (val: number) => void, labels: string[], emojis: string[], selectedClasses: string }) => {
+const RatingSelector = ({ value, setValue, labels, emojis }: { value: number, setValue: (val: number) => void, labels: string[], emojis: string[] }) => {
     return (
         <div className="space-y-3">
             {labels.map((label, index) => (
                 <button
                     key={index}
-                    onClick={() => setValue(index + 1)}
-                    className={`w-full flex items-center p-3 rounded-lg border-2 transition-all duration-200 text-left ${
-                        value === index + 1
-                            ? `${selectedClasses} shadow-lg scale-105`
-                            : 'border-transparent bg-base hover:bg-white/5 hover:border-text-primary/20'
+                    onClick={() => setValue(labels.length - index)}
+                    className={`w-full flex items-center p-3 rounded-xl border-2 transition-all duration-200 text-left ${
+                        value === (labels.length - index)
+                            ? 'border-secondary bg-secondary/10 shadow-lg scale-105'
+                            : 'border-border-color bg-background shadow-md hover:shadow-lg hover:border-secondary/30 hover:-translate-y-0.5'
                     }`}
                 >
                     <span className="text-3xl mr-4">{emojis[index]}</span>
@@ -97,31 +97,31 @@ const CheckInModal: React.FC = () => {
                         case 0:
                             return (
                                 <div>
-                                    <h3 className="text-xl font-semibold mb-6 text-center">How are you feeling today?</h3>
-                                    <RatingSelector value={mood} setValue={setMood} labels={levelLabels} emojis={moodEmojis} selectedClasses="border-primary bg-primary/20" />
+                                    <h3 className="text-xl font-semibold mb-6 text-center text-text-primary">How are you feeling today?</h3>
+                                    <RatingSelector value={mood} setValue={setMood} labels={levelLabels} emojis={moodEmojis} />
                                 </div>
                             );
                         case 1:
                             return (
                                 <div>
-                                    <h3 className="text-xl font-semibold mb-6 text-center">What's your energy level?</h3>
-                                    <RatingSelector value={energy} setValue={setEnergy} labels={levelLabels} emojis={moodEmojis} selectedClasses="border-secondary bg-secondary/20" />
+                                    <h3 className="text-xl font-semibold mb-6 text-center text-text-primary">What's your energy level?</h3>
+                                    <RatingSelector value={energy} setValue={setEnergy} labels={levelLabels} emojis={moodEmojis} />
                                 </div>
                             );
                         case 2:
                             return (
                                 <div>
-                                    <h3 className="text-xl font-semibold mb-6 text-center">How did you sleep?</h3>
-                                    <RatingSelector value={sleep} setValue={setSleep} labels={sleepLabels} emojis={moodEmojis} selectedClasses="border-accent bg-accent/20" />
+                                    <h3 className="text-xl font-semibold mb-6 text-center text-text-primary">How did you sleep?</h3>
+                                    <RatingSelector value={sleep} setValue={setSleep} labels={sleepLabels} emojis={moodEmojis} />
                                 </div>
                             );
                         case 3:
                             return (
                                 <div>
-                                    <h3 className="text-xl font-semibold mb-4 text-center">What are three things you're grateful for?</h3>
+                                    <h3 className="text-xl font-semibold mb-4 text-center text-text-primary">What are three things you're grateful for?</h3>
                                     <div className="space-y-3">
                                         {[0, 1, 2].map(i => (
-                                            <input key={i} type="text" placeholder={`${i + 1}.`} value={gratitude[i]} onChange={e => handleGratitudeChange(i, e.target.value)} className="w-full p-2 border border-text-primary/20 rounded-md bg-base focus:ring-secondary focus:border-secondary"/>
+                                            <input key={i} type="text" placeholder={`${i + 1}.`} value={gratitude[i]} onChange={e => handleGratitudeChange(i, e.target.value)} className="w-full p-3 border border-border-color rounded-xl bg-background focus:ring-secondary focus:border-secondary"/>
                                         ))}
                                     </div>
                                 </div>
@@ -129,8 +129,8 @@ const CheckInModal: React.FC = () => {
                         case 4:
                             return (
                                 <div>
-                                    <h3 className="text-xl font-semibold mb-4 text-center">Ready to complete your check-in?</h3>
-                                    <p className="text-center text-text-secondary">You'll earn 10 points and grow your Wellness Tree.</p>
+                                    <h3 className="text-xl font-semibold mb-4 text-center text-text-primary">Ready to complete your check-in?</h3>
+                                    <p className="text-center text-text-secondary">You'll earn 10 points for your consistency.</p>
                                 </div>
                             );
                         default:
@@ -143,18 +143,18 @@ const CheckInModal: React.FC = () => {
   };
 
   return (
-    <div className={`fixed inset-0 bg-black/70 flex items-center justify-center z-50 backdrop-blur-sm transition-opacity duration-300 ${isExiting ? 'opacity-0' : 'opacity-100'}`}>
-      <div className={`bg-surface rounded-lg shadow-xl p-8 w-full max-w-md relative border border-text-primary/10 transition-transform duration-300 ${isExiting ? 'scale-90' : 'scale-100'}`}>
+    <div className={`fixed inset-0 bg-black/30 flex items-center justify-center z-50 backdrop-blur-sm transition-opacity duration-300 ${isExiting ? 'opacity-0' : 'opacity-100'} p-4`}>
+      <div className={`bg-surface rounded-2xl shadow-md p-6 sm:p-8 w-full max-w-md relative border border-border-color transition-transform duration-300 ${isExiting ? 'scale-90' : 'scale-100'}`}>
         <button onClick={handleClose} className="absolute top-4 right-4 text-text-secondary hover:text-text-primary">
           <X size={24} />
         </button>
         <div className="mb-6">
-            <div className="w-full bg-base rounded-full h-1.5">
+            <div className="w-full bg-background rounded-full h-1.5">
                 <div className="bg-secondary h-1.5 rounded-full transition-all duration-500" style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}></div>
             </div>
         </div>
         
-        <div className="min-h-[360px] flex items-center justify-center overflow-hidden relative">
+        <div className="flex items-center justify-center overflow-hidden relative">
             {renderStepContent()}
         </div>
 
@@ -162,16 +162,16 @@ const CheckInModal: React.FC = () => {
           <button 
             onClick={handleBack} 
             disabled={currentStep === 0}
-            className="px-4 py-2 rounded-md bg-surface text-text-secondary hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed border border-text-primary/20">
+            className="px-6 py-2 rounded-xl text-text-secondary hover:bg-black/5 disabled:opacity-50 disabled:cursor-not-allowed">
             Back
           </button>
           {currentStep < steps.length - 1 ? (
-             <button onClick={handleNext} className="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90">
+             <button onClick={handleNext} className="px-6 py-2 rounded-xl bg-primary text-text-primary font-semibold hover:bg-gray-100 shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 border border-border-color">
                 Next
             </button>
           ) : (
-            <button onClick={handleComplete} className="px-4 py-2 rounded-md bg-secondary text-white hover:bg-secondary/90">
-                Complete Check-in
+            <button onClick={handleComplete} className="px-6 py-2 rounded-xl bg-secondary text-white font-semibold hover:bg-secondary/90 shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5">
+                Complete
             </button>
           )}
         </div>

@@ -5,7 +5,7 @@ import { CheckInData, JournalEntry } from "./types";
 if (!process.env.API_KEY) {
   // A simple fallback for environments where process.env is not defined.
   // In a real build process, this would be replaced.
-  const apiKey = 'AIzaSyBL8ynsJgXGZn9X79Seiw6asv1zHQmmncQ'; // Replace with your actual key if needed for local dev
+  const apiKey = 'YOUR_API_KEY_HERE'; // Replace with your actual key if needed for local dev
    if(apiKey === 'YOUR_API_KEY_HERE') {
     console.warn("API Key is not set. Please set it in geminiService.ts");
    }
@@ -34,7 +34,7 @@ export const createPsychoanalysisSession = (): Chat => {
   return ai.chats.create({
     model: 'gemini-2.5-flash',
     config: {
-      systemInstruction: "You are an integrative psychotherapist. Your approach is warm, empathetic, and insightful. Use open-ended questions to guide the user in exploring their thoughts and feelings. Maintain context throughout the 40-minute session. Start the conversation by gently asking, 'What's on your mind today?'.",
+      systemInstruction: "You are an integrative psychotherapist. Your approach is warm, empathetic, and insightful. Use open-ended questions to guide the user in exploring their thoughts and feelings. Your responses MUST be short and conversational. Break down longer thoughts into several smaller messages, each no more than 2-3 sentences. This creates a more dynamic, turn-based dialogue. Maintain context throughout the 40-minute session. Start the conversation by gently asking, 'What's on your mind today?'.",
     },
   });
 };

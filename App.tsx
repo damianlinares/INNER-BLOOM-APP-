@@ -72,7 +72,7 @@ function App() {
   return (
     <UserProvider>
       <HashRouter>
-        <div className="bg-base min-h-screen text-text-primary font-sans">
+        <div className="bg-background min-h-screen text-text-primary font-sans">
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />

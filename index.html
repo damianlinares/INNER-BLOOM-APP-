@@ -8,23 +8,36 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              serif: ['Lora', 'serif'],
+              sans: ['Poppins', 'sans-serif'],
+              serif: ['Poppins', 'sans-serif'],
             },
             colors: {
-              'base': '#111827',        // Cool Dark Gray (gray-900)
-              'surface': '#1F2937',      // Lighter Dark Gray (gray-800)
-              'primary': '#818CF8',      // Indigo (indigo-400)
-              'secondary': '#A78BFA',    // Violet (violet-400)
-              'accent': '#F472B6',       // Pink (pink-400)
-              'text-primary': '#F9FAFB', // Almost White (gray-50)
-              'text-secondary': '#9CA3AF',// Lighter Gray (gray-400)
+              'background': '#F0F9FF', // Light Sky Blue
+              'surface': '#FFFFFF',    // White
+              'primary': '#FFFFFF',      // White (for buttons)
+              'secondary': '#3B82F6',    // Vibrant Blue
+              'text-primary': '#0F172A', // Dark Slate
+              'text-secondary': '#64748B',// Medium Slate
+              'border-color': '#CBD5E1',  // Light-Medium Gray for contrast
+              'accent-pink': '#EC4899',   // Vibrant Pink for accents
+              // Legacy colors for compatibility
+              'base': '#F0F9FF',        
+              'accent': '#3B82F6',      
+            },
+            borderRadius: {
+              'xl': '1rem',
+              '2xl': '1.5rem',
+            },
+            boxShadow: {
+              'soft': '0px 4px 12px rgba(0, 0, 0, 0.08)',
+              'md': '0px 6px 16px rgba(0, 0, 0, 0.12)',
+              'lg': '0 10px 20px rgba(0, 0, 0, 0.1)',
             },
             animation: {
               'gentle-float': 'gentle-float 4s ease-in-out infinite',
@@ -43,8 +56,8 @@
                 '50%': { transform: 'translateY(-6px)' },
               },
               'subtle-glow': {
-                '0%, 100%': { boxShadow: '0 0 20px 0px rgba(244, 114, 182, 0.3)' },
-                '50%': { boxShadow: '0 0 35px 5px rgba(244, 114, 182, 0.4)' },
+                '0%, 100%': { boxShadow: '0 0 20px 0px rgba(59, 130, 246, 0.4)' },
+                '50%': { boxShadow: '0 0 35px 5px rgba(59, 130, 246, 0.5)' },
               },
               'message-fade-in': {
                 '0%': { opacity: '0', transform: 'translateY(10px)' },
@@ -73,7 +86,7 @@
               },
               'pop': {
                 '0%': { transform: 'scale(1)' },
-                '50%': { transform: 'scale(1.2)' },
+                '50%': { transform: 'scale(1.1)' },
                 '100%': { transform: 'scale(1)' },
               }
             },
